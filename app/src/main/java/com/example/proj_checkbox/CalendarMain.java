@@ -3,7 +3,8 @@ package com.example.proj_checkbox;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import static com.example.proj_checkbox.CalendarUtils.daysInMonthArray;
+import static com.example.proj_checkbox.CalendarUtils.monthYearFromDate;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,21 +16,19 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class CalendarMain extends AppCompatActivity implements CalendarAdapter.OnItemListener
+public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private LocalDate selectedDate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar_main);
+        setContentView(R.layout.activity_main);
         initWidgets();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            selectedDate = LocalDate.now();
-        }
+        CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
     }
 
@@ -41,8 +40,8 @@ public class CalendarMain extends AppCompatActivity implements CalendarAdapter.O
 
     private void setMonthView()
     {
-        monthYearText.setText(monthYearFromDate(selectedDate));
-        ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
+        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
@@ -50,63 +49,27 @@ public class CalendarMain extends AppCompatActivity implements CalendarAdapter.O
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
-    private ArrayList<String> daysInMonthArray(LocalDate date)
-    {
-        ArrayList<String> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth;
-        yearMonth = YearMonth.from(date);
-
-        int daysInMonth;
-        daysInMonth = yearMonth.lengthOfMonth();
-
-        LocalDate firstOfMonth;
-        firstOfMonth = selectedDate.withDayOfMonth(1);
-        int dayOfWeek;
-        dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
-
-        for(int i = 1; i <= 42; i++)
-        {
-            if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
-            {
-                daysInMonthArray.add("");
-            }
-            else
-            {
-                daysInMonthArray.add(String.valueOf(i - dayOfWeek));
-            }
-        }
-        return  daysInMonthArray;
-    }
-
-    private String monthYearFromDate(LocalDate date)
-    {
-        DateTimeFormatter formatter;
-        formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-
-        return date.format(formatter);
-
-
-    }
-
     public void previousMonthAction(View view)
     {
-        selectedDate = selectedDate.minusMonths(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
     public void nextMonthAction(View view)
     {
-        selectedDate = selectedDate.plusMonths(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
 
     @Override
-    public void onItemClick(int position, String dayText)
+    public void onItemClick(int position, LocalDate date)
     {
-        if(!dayText.equals(""))
+        if(date != null)
         {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            CalendarUtils.selectedDate = date;
+            setMonthView();
         }
     }
+
+
 }
