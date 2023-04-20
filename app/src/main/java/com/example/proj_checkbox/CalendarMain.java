@@ -5,9 +5,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import static com.example.proj_checkbox.CalendarUtils.daysInMonthArray;
 import static com.example.proj_checkbox.CalendarUtils.monthYearFromDate;
+
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +23,7 @@ public class CalendarMain extends AppCompatActivity implements CalendarAdapter.O
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-
+Button toMainMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +33,13 @@ public class CalendarMain extends AppCompatActivity implements CalendarAdapter.O
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
+        toMainMenu = (Button) findViewById(R.id.CalBack);
+        
+        // button to main menu
+        toMainMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(CalendarMain.this, MainMenu.class);
+            startActivity(intent);
+        });
     }
 
     private void initWidgets()
