@@ -83,4 +83,10 @@ public class MainActivity extends AppCompatActivity implements DialogCloseListen
         tasksAdapter.setTasks(taskList);
         tasksAdapter.notifyDataSetChanged();
     }
+//    public void newEventAction(View view) {
+//        Intent intent = new Intent(this,EventEditActivity.class);
+//
+//        startActivity(intent);
+//    }
+
 }

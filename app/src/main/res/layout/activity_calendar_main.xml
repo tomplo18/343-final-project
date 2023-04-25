@@ -126,12 +126,30 @@
             android:textSize="16sp"/>
 
 
+
     </LinearLayout>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="534dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/newEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:onClick="newEventAction"
+        android:text="New Event"
+        android:textColor="@color/aqua"
+        android:textStyle="bold" />
+    <ListView
+        android:id="@+id/eventListView"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_weight="5"/>
 
 </LinearLayout>

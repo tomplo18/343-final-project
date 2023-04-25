@@ -6,13 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.example.proj_checkbox.CalendarUtils.daysInMonthArray;
 import static com.example.proj_checkbox.CalendarUtils.monthYearFromDate;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -23,8 +26,11 @@ public class CalendarMain extends AppCompatActivity implements CalendarAdapter.O
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
+    private ListView eventListView;
 Button toMainMenu;
+Button toEvents;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,6 +40,10 @@ Button toMainMenu;
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
         toMainMenu = (Button) findViewById(R.id.CalBack);
+        toEvents=(Button)findViewById(R.id.newEvent);
+        toEvents.setOnClickListener(v->{
+
+        });
         
         // button to main menu
         toMainMenu.setOnClickListener(v -> {
@@ -46,6 +56,7 @@ Button toMainMenu;
     {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
+        eventListView=findViewById(R.id.eventListView);
     }
 
     private void setMonthView()
@@ -57,6 +68,7 @@ Button toMainMenu;
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
+        setEventAdapter();
     }
 
     public void previousMonthAction(View view)
@@ -79,6 +91,25 @@ Button toMainMenu;
             CalendarUtils.selectedDate = date;
             setMonthView();
         }
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        setEventAdapter();
+    }
+
+    private void setEventAdapter() {
+        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
+        EventAdapter eventAdapter=new EventAdapter(getApplicationContext(),dailyEvents);
+        eventListView.setAdapter(eventAdapter);
+    }
+
+    public void newEventAction(View view) {
+        Intent intent = new Intent(this,EventEditActivity.class);
+
+        startActivity(intent);
     }
 
 

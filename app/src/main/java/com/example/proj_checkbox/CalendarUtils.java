@@ -11,6 +11,8 @@ import java.util.ArrayList;
 public class CalendarUtils {
     public static LocalDate selectedDate;
 
+
+
     public static String formattedDate(LocalDate date)
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
@@ -48,4 +50,5 @@ public class CalendarUtils {
         }
         return  daysInMonthArray;
     }
+
 }
