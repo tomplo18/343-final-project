@@ -40,10 +40,7 @@ Button toEvents;
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
         toMainMenu = (Button) findViewById(R.id.CalBack);
-        toEvents=(Button)findViewById(R.id.newEvent);
-        toEvents.setOnClickListener(v->{
 
-        });
         
         // button to main menu
         toMainMenu.setOnClickListener(v -> {
