@@ -28,7 +28,7 @@ public class CalendarMain extends AppCompatActivity implements CalendarAdapter.O
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
 Button toMainMenu;
-Button toEvents;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
